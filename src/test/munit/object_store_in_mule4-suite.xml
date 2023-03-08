@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="object_store_in_mule4-suite.xml" />
+	<munit:test name="object_store_in_mule4Flow-test" doc:id="73c3a74d-f95a-41e1-bcef-cc005ad4984d" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Retrieve" doc:id="becc9068-a5d5-4a4e-a34d-4e4db6f489b8" processor="os:retrieve">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="6bce6d9e-ee06-4d05-88d8-d0582a0bccee" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://objectstoreinmule4Flowtest\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://objectstoreinmule4Flowtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="lastRecord" value="#[readUrl('classpath://objectstoreinmule4Flowtest\mock_variable_.dwl')]" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Select" doc:id="607c5848-e70f-4ccf-859e-de7fb02db910" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="1bfa94d8-74a8-49d0-a760-355a9b423de5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java  --- readUrl('classpath://objectstoreinmule4Flowtest\mock_payload1.dwl')]" mediaType="application/java " encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="lastRecord" value="#[readUrl('classpath://objectstoreinmule4Flowtest\mock_variable_1.dwl')]" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Write" doc:id="3bb6c54e-4c48-4f63-aed7-ea5a588be60b" processor="file:write">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="eae07d9c-fe87-4f7f-9e8f-3dd6c2e53e7f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json  --- readUrl('classpath://objectstoreinmule4Flowtest\mock_payload2.dwl')]" mediaType="application/json " encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="lastRecord" value="#[readUrl('classpath://objectstoreinmule4Flowtest\mock_variable_2.dwl')]" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Store" doc:id="4e6bc6dc-f8c5-42b1-8d74-6a85b258de59" processor="os:store">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="1a464638-a50f-4614-a2c2-52e5db136f5c" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java  --- readUrl('classpath://objectstoreinmule4Flowtest\mock_payload3.dwl')]" mediaType="application/java " encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="lastRecord" value="#[readUrl('classpath://objectstoreinmule4Flowtest\mock_variable_3.dwl')]" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="143ae721-e01e-409f-980f-203f04ed2b63" >
+				<munit:payload value="#[readUrl('classpath://objectstoreinmule4Flowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://objectstoreinmule4Flowtest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to object_store_in_mule4Flow" doc:id="eb390aa2-6e1f-49a0-b9c9-1297e06374ba" name="object_store_in_mule4Flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="2614e53a-3175-4faf-80db-a58a5513224d" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
